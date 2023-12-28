@@ -10,7 +10,7 @@ Storyscape is an innovative social media platform built on cutting-edge technolo
 
 ### Tech Stack
 
-`Typescript, React, Next.js, `
+`Typescript, React, Next.js, Tailwind CSS, Zustand, AppWrite, `
 
 ## Getting Started
 
