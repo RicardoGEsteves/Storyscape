@@ -15,12 +15,14 @@ export default function MainLayout({
   return (
     <>
       <TopNav />
+
       <div
         className={`flex justify-between mx-auto w-full lg:px-2.5 px-0 ${
           pathname == "/" ? "max-w-[1140px]" : ""
         }`}
       >
         <SideNav />
+
         {children}
       </div>
     </>

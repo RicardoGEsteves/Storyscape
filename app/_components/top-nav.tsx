@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -47,25 +49,27 @@ export default function TopNav() {
             placeholder="Search accounts"
           />
 
-          <div className="absolute bg-white max-w-[910px] h-auto w-full z-20 left-0 top-12 border p-1">
-            <div className="p-1">
-              <Link
-                href={`/profile/id`}
-                className="flex items-center justify-between w-full cursor-pointer hover:bg-lime-500 p-1 px-2 hover:text-neutral-950"
-              >
-                <div className="flex items-center">
-                  <Image
-                    className="rounded-md"
-                    width={40}
-                    height={40}
-                    src="https://placehold.co/40"
-                    alt="Profile picture"
-                  />
-                  <div className="truncate ml-2">Profile name</div>
-                </div>
-              </Link>
+          {!true ? (
+            <div className="absolute bg-white max-w-[910px] h-auto w-full z-20 left-0 top-12 border p-1 rounded-md">
+              <div className="p-1">
+                <Link
+                  href={`/profile/id`}
+                  className="flex items-center justify-between w-full cursor-pointer hover:bg-lime-500 p-1 px-2 hover:text-neutral-950 rounded-md"
+                >
+                  <div className="flex items-center">
+                    <Image
+                      className="rounded-md"
+                      width={40}
+                      height={40}
+                      src="https://placehold.co/40"
+                      alt="Profile picture"
+                    />
+                    <div className="truncate ml-2">Profile name</div>
+                  </div>
+                </Link>
+              </div>
             </div>
-          </div>
+          ) : null}
 
           <div className="px-3 py-1 flex items-center border-l border-l-gray-300">
             <BiSearch
@@ -78,7 +82,7 @@ export default function TopNav() {
         <div className="flex items-center gap-3 ">
           <button
             onClick={() => goTo()}
-            className="flex items-center border rounded-sm py-[6px] hover:bg-gray-100 pl-1.5"
+            className="flex items-center border rounded-md py-[6px] hover:bg-gray-100 pl-1.5"
           >
             <AiOutlinePlus
               color="#000000"
@@ -118,23 +122,29 @@ export default function TopNav() {
                   />
                 </button>
 
-                <div className="absolute bg-white rounded-lg py-1.5 w-[200px] shadow-xl border top-[40px] right-0">
-                  <button
-                    onClick={() => {}}
-                    className="flex items-center w-full justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer"
-                  >
-                    <BiUser size="20" />
-                    <span className="pl-2 font-semibold text-sm">Profile</span>
-                  </button>
+                {true ? (
+                  <div className="absolute bg-white rounded-lg py-1.5 w-[200px] shadow-xl border top-[40px] right-0">
+                    <button
+                      onClick={() => {}}
+                      className="flex items-center w-full justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      <BiUser size="20" />
+                      <span className="pl-2 font-semibold text-sm">
+                        Profile
+                      </span>
+                    </button>
 
-                  <button
-                    onClick={() => {}}
-                    className="flex items-center justify-start w-full py-3 px-1.5 hover:bg-gray-100 border-t cursor-pointer"
-                  >
-                    <FiLogOut size={20} />
-                    <span className="pl-2 font-semibold text-sm">Log out</span>
-                  </button>
-                </div>
+                    <button
+                      onClick={() => {}}
+                      className="flex items-center justify-start w-full py-3 px-1.5 hover:bg-gray-100 border-t cursor-pointer"
+                    >
+                      <FiLogOut size={20} />
+                      <span className="pl-2 font-semibold text-sm">
+                        Log out
+                      </span>
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           )}

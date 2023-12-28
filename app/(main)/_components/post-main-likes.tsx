@@ -10,8 +10,8 @@ import { Like, Comment } from "@/types/types";
 export default function PostMainLikes({ post }: PostMainLikesCompTypes) {
   const router = useRouter();
 
-  const [hasClickedLike, setHasClickedLike] = useState(false);
-  const [userLiked, setUserLiked] = useState(false);
+  const [hasClickedLike, setHasClickedLike] = useState<boolean>(false);
+  const [userLiked, setUserLiked] = useState<boolean>(false);
   const [likes, setLikes] = useState<Like[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
 
@@ -33,7 +33,7 @@ export default function PostMainLikes({ post }: PostMainLikesCompTypes) {
           >
             {!hasClickedLike ? (
               <AiFillHeart
-                color={likes?.length > 0 && userLiked ? "#ff2626" : ""}
+                color={likes?.length > 0 && userLiked ? "#b91c1c" : ""}
                 size="25"
               />
             ) : (
