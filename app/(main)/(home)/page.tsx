@@ -1,9 +1,7 @@
-"use client";
-
 import ClientOnly from "@/components/client-only";
 import PostMain from "../_components/post-main";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main className="mt-[80px] w-[calc(100%-90px)] max-w-[690px] ml-auto">
       <ClientOnly>
