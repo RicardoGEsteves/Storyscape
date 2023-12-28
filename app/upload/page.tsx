@@ -170,6 +170,7 @@ export default function UploadPage() {
               loop
               muted
               className="absolute rounded-xl object-cover z-10 p-[13px] w-full h-full"
+              // dangerouslySetInnerHTML for DOM text reinterpreted as HTML(XSS vulnerabilities) issue or  DOMPurify or sanitize-html or html-react-parser
               src={fileDisplay}
             />
 
