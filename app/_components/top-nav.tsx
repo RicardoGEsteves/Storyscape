@@ -31,6 +31,7 @@ export default function TopNav() {
       >
         <Link href="/">
           <Image
+            className="min-w-[60px]"
             src="/logo.png"
             alt="Storyscape logo"
             width={60}
@@ -90,7 +91,7 @@ export default function TopNav() {
             <div className="flex items-center">
               <button
                 onClick={() => {}}
-                className="flex items-center bg-lime-500 text-neutral-950 border rounded-md px-3 py-[6px]"
+                className="flex items-center bg-lime-500 text-white border rounded-md px-3 py-[6px]"
               >
                 <span className="whitespace-nowrap mx-4 font-medium text-[15px]">
                   Log in
