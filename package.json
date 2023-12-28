@@ -1,0 +1,37 @@
+{
+  "name": "storyscape",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "appwrite": "^13.0.1",
+    "debounce": "^2.0.0",
+    "image-js": "^0.35.5",
+    "moment": "^2.30.1",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-advanced-cropper": "^0.19.4",
+    "react-dom": "^18",
+    "react-icons": "^4.12.0",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@types/debounce": "^1.2.4",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "canvas": "^2.11.2",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
+    "raw-loader": "^4.0.2",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}
