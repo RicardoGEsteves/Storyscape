@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { ProfilePageTypes } from "@/types/component";
 import { User } from "@/types/types";
-import { BsPencil } from "react-icons/bs";
+import { FaRegEdit } from "react-icons/fa";
 import ClientOnly from "@/components/client-only";
 import PostUser from "./_components/post-user";
 
@@ -40,7 +40,6 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
         ) : (
           <div className="min-w-[150px] h-[150px] bg-gray-200 rounded-full" />
         )}
-
         <div className="ml-5 w-full">
           {(currentProfile as User)?.name ? (
             <div>
@@ -55,10 +54,11 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
 
           {true ? (
             <button
+              //TODO: Add edit profile functionality
               onClick={() => console.log("Edit profile button clicked")}
               className="flex item-center rounded-md py-1.5 px-3.5 mt-3 text-[15px] font-semibold border hover:bg-gray-100"
             >
-              <BsPencil
+              <FaRegEdit
                 className="mt-0.5 mr-1"
                 size="18"
               />
@@ -70,6 +70,7 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
             </button>
           )}
         </div>
+        E
       </div>
 
       <div className="flex items-center pt-4">
