@@ -31,8 +31,7 @@ export default function Register() {
     setError(null);
     let isError = false;
 
-    const reg =
-      /^[a-zA-Z0-9]+([\.]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})+$/;
+    const reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     if (!name) {
       setError({ type: "name", message: "A Name is required" });
