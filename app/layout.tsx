@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import AuthOverlay from "./(auth)/auth-overlay";
+
+import UserProvider from "@/context/user";
+import RenderOverlays from "@/components/render-overlays";
 
 import "./globals.css";
 
@@ -16,11 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        {/* TODO: Remove after after auth implementation */}
-        <AuthOverlay />
-        {children}
-      </body>
+      <UserProvider>
+        <body>
+          <RenderOverlays />
+
+          {children}
+        </body>
+      </UserProvider>
     </html>
   );
 }
