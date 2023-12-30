@@ -164,6 +164,7 @@ export default function UploadPage() {
               height="50"
               src="/logo.png"
               alt="Storyscape logo"
+              priority
             />
             <video
               autoPlay

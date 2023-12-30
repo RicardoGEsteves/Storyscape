@@ -85,6 +85,7 @@ export default function PostMain({ post }: PostMainCompTypes) {
               height={40}
               src="/logo.png"
               alt="Storyscape logo"
+              priority
             />
           </div>
 
