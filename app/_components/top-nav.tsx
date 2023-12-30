@@ -38,6 +38,7 @@ export default function TopNav() {
             alt="Storyscape logo"
             width={60}
             height={60}
+            priority
           />
         </Link>
 

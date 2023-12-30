@@ -70,6 +70,7 @@ export default function PostPage({ params }: PostPageTypes) {
           height={40}
           src="/logo.png"
           alt="Logo"
+          priority
         />
 
         {postById?.video_url ? (

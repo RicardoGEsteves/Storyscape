@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AuthOverlay from "./(auth)/auth-overlay";
 
 import "./globals.css";
 
@@ -15,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {/* TODO: Remove after after auth implementation */}
+        <AuthOverlay />
+        {children}
+      </body>
     </html>
   );
 }
