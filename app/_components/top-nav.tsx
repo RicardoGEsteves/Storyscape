@@ -1,16 +1,32 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { BiSearch, BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
 
+import { useUser } from "@/context/user";
+import { useGeneralStore } from "@/store/general";
+import { RandomUsers } from "@/types/types";
+
 export default function TopNav() {
+  const userContext = useUser();
+
   const router = useRouter();
   const pathname = usePathname();
+
+  const [searchProfiles, setSearchProfiles] = useState<RandomUsers[]>([]);
+  let [showMenu, setShowMenu] = useState<boolean>(false);
+
+  const { setIsLoginOpen, setIsEditProfileOpen } = useGeneralStore();
+
+  useEffect(() => {
+    setIsEditProfileOpen(false);
+  }, [setIsEditProfileOpen]);
 
   const handleSearch = (event: { target: { value: string } }) => {
     const { value } = event.target;
@@ -18,7 +34,8 @@ export default function TopNav() {
   };
 
   const goTo = () => {
-    console.log("goTo");
+    if (!userContext?.user) return setIsLoginOpen(true);
+    router.push("/upload");
   };
 
   return (
@@ -92,10 +109,10 @@ export default function TopNav() {
             <span className="px-2 font-medium text-[15px]">Upload</span>
           </button>
 
-          {true ? (
+          {!userContext?.user?.id ? (
             <div className="flex items-center">
               <button
-                onClick={() => {}}
+                onClick={() => setIsLoginOpen(true)}
                 className="flex items-center bg-lime-500 text-white border rounded-md px-3 py-[6px]"
               >
                 <span className="whitespace-nowrap mx-4 font-medium text-[15px]">
@@ -111,7 +128,7 @@ export default function TopNav() {
             <div className="flex items-center">
               <div className="relative">
                 <button
-                  onClick={() => {}}
+                  onClick={() => setShowMenu((showMenu = !showMenu))}
                   className="mt-1 border border-gray-200 rounded-full"
                 >
                   <Image
@@ -123,10 +140,13 @@ export default function TopNav() {
                   />
                 </button>
 
-                {true ? (
+                {showMenu ? (
                   <div className="absolute bg-white rounded-lg py-1.5 w-[200px] shadow-xl border top-[40px] right-0">
                     <button
-                      onClick={() => {}}
+                      onClick={() => {
+                        router.push(`/profile/${userContext?.user?.id}`);
+                        setShowMenu(false);
+                      }}
                       className="flex items-center w-full justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer"
                     >
                       <BiUser size="20" />
@@ -136,7 +156,10 @@ export default function TopNav() {
                     </button>
 
                     <button
-                      onClick={() => {}}
+                      onClick={async () => {
+                        await userContext?.logout();
+                        setShowMenu(false);
+                      }}
                       className="flex items-center justify-start w-full py-3 px-1.5 hover:bg-gray-100 border-t cursor-pointer"
                     >
                       <FiLogOut size={20} />
