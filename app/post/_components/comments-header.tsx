@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import moment from "moment";
@@ -10,25 +10,113 @@ import { ImMusic } from "react-icons/im";
 import { TfiTrash } from "react-icons/tfi";
 
 import { CommentsHeaderCompTypes } from "@/types/component";
-import ClientOnly from "@/components/client-only";
+import { useUser } from "@/context/user";
+import { useLikeStore } from "@/store/like";
+import { useCommentStore } from "@/store/comment";
+import { useGeneralStore } from "@/store/general";
+import useIsLiked from "@/hooks/use-is-liked";
+import useCreateLike from "@/hooks/use-create-like";
+import useDeleteLike from "@/hooks/use-delete-like";
+import useDeletePostById from "@/hooks/use-delete-post-by-id";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
 
 export default function CommentsHeader({
   post,
   params,
 }: CommentsHeaderCompTypes) {
+  const { setLikesByPost, likesByPost } = useLikeStore();
+  const { setCommentsByPost, commentsByPost } = useCommentStore();
+  const { setIsLoginOpen } = useGeneralStore();
+
+  const userContext = useUser();
   const router = useRouter();
 
   const [hasClickedLike, setHasClickedLike] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [userLiked, setUserLiked] = useState<boolean>(false);
 
-  const deletePost = () => {
-    console.log("deletePost");
+  useEffect(() => {
+    setCommentsByPost(params?.postId);
+    setLikesByPost(params?.postId);
+  }, [params?.postId, setCommentsByPost, setLikesByPost]);
+
+  useEffect(() => {
+    const hasUserLikedPost = () => {
+      if (likesByPost.length < 1 || !userContext?.user?.id) {
+        setUserLiked(false);
+        return;
+      }
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      const res = useIsLiked(userContext.user.id, params.postId, likesByPost);
+      setUserLiked(res ? true : false);
+    };
+    hasUserLikedPost();
+  }, [likesByPost, params.postId, userContext?.user?.id]);
+
+  const like = async () => {
+    try {
+      setHasClickedLike(true);
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useCreateLike(userContext?.user?.id || "", params.postId);
+      setLikesByPost(params.postId);
+      setHasClickedLike(false);
+    } catch (error) {
+      console.log(error);
+      setHasClickedLike(false);
+    }
+  };
+
+  const unlike = async (id: string) => {
+    try {
+      setHasClickedLike(true);
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useDeleteLike(id);
+      setLikesByPost(params.postId);
+      setHasClickedLike(false);
+    } catch (error) {
+      console.log(error);
+      setHasClickedLike(false);
+    }
   };
 
   const likeOrUnlike = () => {
-    console.log("likeOrUnlike");
+    if (!userContext?.user) return setIsLoginOpen(true);
+
+    /* eslint-disable-next-line react-hooks/rules-of-hooks */
+    const res = useIsLiked(userContext.user.id, params.postId, likesByPost);
+    if (!res) {
+      like();
+    } else {
+      likesByPost.forEach((like) => {
+        if (
+          userContext?.user?.id &&
+          userContext.user.id == like.user_id &&
+          like.post_id == params.postId
+        ) {
+          unlike(like.id);
+        }
+      });
+    }
   };
+
+  const deletePost = async () => {
+    const res = confirm("Are you sure you want to delete this post?");
+    if (!res) return;
+
+    setIsDeleting(true);
+
+    try {
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useDeletePostById(params?.postId, post?.video_url);
+      router.push(`/profile/${params.userId}`);
+      setIsDeleting(false);
+    } catch (error) {
+      console.log(error);
+      setIsDeleting(false);
+    }
+  };
+
+  const bucketUrl = useCreateBucketUrl(post?.profile.image);
 
   return (
     <>
@@ -40,7 +128,7 @@ export default function CommentsHeader({
                 className="rounded-full lg:mx-0 mx-auto"
                 width={40}
                 height={40}
-                src={post?.profile.image}
+                src={bucketUrl}
                 alt="profile image"
               />
             ) : (
@@ -68,7 +156,7 @@ export default function CommentsHeader({
           </div>
         </div>
 
-        {true ? (
+        {userContext?.user?.id == post?.user_id ? (
           <div>
             {isDeleting ? (
               <BiLoaderCircle
@@ -78,7 +166,7 @@ export default function CommentsHeader({
             ) : (
               <button
                 disabled={isDeleting}
-                onClick={() => deletePost()}
+                onClick={deletePost}
               >
                 <TfiTrash
                   className="cursor-pointer"
@@ -101,11 +189,14 @@ export default function CommentsHeader({
         <div className="pb-4 text-center flex items-center">
           <button
             disabled={hasClickedLike}
-            onClick={() => likeOrUnlike()}
+            onClick={likeOrUnlike}
             className="rounded-full bg-gray-200 p-2 cursor-pointer"
           >
             {!hasClickedLike ? (
-              <AiFillHeart size="25" />
+              <AiFillHeart
+                color={likesByPost.length > 0 && userLiked ? "#b91c1c" : ""}
+                size="25"
+              />
             ) : (
               <BiLoaderCircle
                 className="animate-spin"
@@ -114,7 +205,7 @@ export default function CommentsHeader({
             )}
           </button>
           <span className="text-xs pl-2 pr-4 text-gray-800 font-semibold">
-            1
+            {likesByPost.length}
           </span>
         </div>
 
@@ -122,7 +213,9 @@ export default function CommentsHeader({
           <div className="rounded-full bg-gray-200 p-2 cursor-pointer">
             <BsChatDots size={25} />
           </div>
-          <span className="text-xs pl-2 text-gray-800 font-semibold">10</span>
+          <span className="text-xs pl-2 text-gray-800 font-semibold">
+            {commentsByPost?.length}
+          </span>
         </div>
       </div>
     </>
