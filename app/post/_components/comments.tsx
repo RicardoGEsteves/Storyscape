@@ -1,33 +1,39 @@
 import { useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 
+import { useUser } from "@/context/user";
+import { useGeneralStore } from "@/store/general";
+import { useCommentStore } from "@/store/comment";
 import { CommentsCompTypes } from "@/types/component";
 import SingleComment from "./single-comment";
 import ClientOnly from "@/components/client-only";
+import useCreateComment from "@/hooks/use-create-comment";
 
 export default function Comments({ params }: CommentsCompTypes) {
+  const { commentsByPost, setCommentsByPost } = useCommentStore();
+  const { setIsLoginOpen } = useGeneralStore();
+
+  const userContext = useUser();
+
   const [comment, setComment] = useState<string>("");
   const [inputFocused, setInputFocused] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
-  const addComment = () => {
-    console.log("addComment");
-  };
+  const addComment = async () => {
+    if (!userContext?.user) return setIsLoginOpen(true);
 
-  const commentsByPost = [
-    {
-      id: "1",
-      user_id: "1",
-      post_id: "1",
-      text: "text",
-      created_at: "2021-09-01T00:00:00.000Z",
-      profile: {
-        user_id: "1",
-        name: "user name",
-        image: "https://placehold.co/100",
-      },
-    },
-  ];
+    try {
+      setIsUploading(true);
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useCreateComment(userContext?.user?.id, params?.postId, comment);
+      setCommentsByPost(params?.postId);
+      setComment("");
+      setIsUploading(false);
+    } catch (error) {
+      console.log(error);
+      setIsUploading(false);
+    }
+  };
 
   return (
     <>
@@ -86,7 +92,7 @@ export default function Comments({ params }: CommentsCompTypes) {
         {!isUploading ? (
           <button
             disabled={!comment}
-            onClick={() => addComment()}
+            onClick={addComment}
             className={`
                             font-semibold text-sm ml-2 px-4 py-2.5 rounded-lg
                             ${

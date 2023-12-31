@@ -1,21 +1,42 @@
 import { useState } from "react";
-
-import { SingleCommentCompTypes } from "@/types/component";
 import Link from "next/link";
 import moment from "moment";
 import Image from "next/image";
 import { BiLoaderCircle } from "react-icons/bi";
 import { TfiTrash } from "react-icons/tfi";
 
+import { SingleCommentCompTypes } from "@/types/component";
+import { useUser } from "@/context/user";
+import { useCommentStore } from "@/store/comment";
+import useDeleteComment from "@/hooks/use-delete-comment";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
+
 export default function SingleComment({
   comment,
   params,
 }: SingleCommentCompTypes) {
+  const userContext = useUser();
+  const { setCommentsByPost } = useCommentStore();
+
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-  const deleteThisComment = () => {
-    console.log("deleteThisComment");
+  const deleteThisComment = async () => {
+    const res = confirm("Are you sure you weant to delete this comment?");
+    if (!res) return;
+
+    try {
+      setIsDeleting(true);
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useDeleteComment(comment?.id);
+      setCommentsByPost(params?.postId);
+      setIsDeleting(false);
+    } catch (error) {
+      console.log(error);
+      setIsDeleting(false);
+    }
   };
+
+  const bucketUrl = useCreateBucketUrl(comment.profile.image);
 
   return (
     <div
@@ -28,7 +49,7 @@ export default function SingleComment({
             className="absolute top-0 rounded-full lg:mx-0 mx-auto"
             width={40}
             height={40}
-            src={comment.profile.image}
+            src={bucketUrl}
             alt="profile image"
           />
         </Link>
@@ -42,7 +63,7 @@ export default function SingleComment({
               </span>
             </span>
 
-            {true ? (
+            {userContext?.user?.id == comment.profile.user_id ? (
               <button
                 disabled={isDeleting}
                 onClick={deleteThisComment}
