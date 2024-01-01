@@ -21,7 +21,7 @@ export default function SingleComment({
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const deleteThisComment = async () => {
-    const res = confirm("Are you sure you weant to delete this comment?");
+    const res = confirm("Are you sure you want to delete this comment?");
     if (!res) return;
 
     try {

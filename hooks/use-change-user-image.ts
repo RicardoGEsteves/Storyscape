@@ -33,7 +33,7 @@ const useChangeUserImage = async (
     // if current image is not default image delete
     if (
       currentImage !=
-      String(process.env.NEXT_PUBLIC_PLACEHOLDER_DEAFULT_IMAGE_ID)
+      String(process.env.NEXT_PUBLIC_PLACEHOLDER_DEFAULT_IMAGE_ID)
     ) {
       await storage.deleteFile(
         String(process.env.NEXT_PUBLIC_BUCKET_ID),
