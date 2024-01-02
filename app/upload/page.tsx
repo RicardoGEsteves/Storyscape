@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { BiLoaderCircle, BiSolidCloudUpload } from "react-icons/bi";
@@ -8,8 +8,12 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { MdMovieEdit } from "react-icons/md";
 
 import { UploadError } from "@/types/types";
+import { useUser } from "@/context/user";
+import useCreatePost from "@/hooks/use-create-post";
 
 export default function UploadPage() {
+  const userContext = useUser();
+
   const router = useRouter();
 
   const [fileDisplay, setFileDisplay] = useState<string>("");
@@ -17,6 +21,10 @@ export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<UploadError | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!userContext?.user) router.push("/");
+  }, [router, userContext?.user]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -41,7 +49,6 @@ export default function UploadPage() {
     setCaption("");
   };
 
-  //TODO: Check type on both file and caption
   const validate = () => {
     setError(null);
     let isError = false;
@@ -57,7 +64,19 @@ export default function UploadPage() {
   };
 
   const onCreateNewPost = async () => {
-    console.log("Creating new post");
+    if (validate()) return;
+    if (!file || !userContext?.user) return;
+    setIsUploading(true);
+
+    try {
+      /* eslint-disable-next-line react-hooks/rules-of-hooks*/
+      await useCreatePost(file, userContext?.user?.id, caption);
+      router.push(`/profile/${userContext?.user?.id}`);
+      setIsUploading(false);
+    } catch (error) {
+      console.log(error);
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -213,7 +232,6 @@ export default function UploadPage() {
               </div>
             </div>
             <div className="flex justify-end max-w-[130px] w-full h-full text-center my-auto">
-              {/* TODO: Implement edit logic */}
               <button className="px-8 py-1.5 text-white text-[15px] bg-lime-500 rounded-md">
                 Edit
               </button>
