@@ -1,37 +1,40 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
+import { FaRegEdit } from "react-icons/fa";
 
 import { ProfilePageTypes } from "@/types/component";
 import { User } from "@/types/types";
-import { FaRegEdit } from "react-icons/fa";
 import ClientOnly from "@/components/client-only";
 import PostUser from "./_components/post-user";
+import { useUser } from "@/context/user";
+import { usePostStore } from "@/store/post";
+import { useProfileStore } from "@/store/profile";
+import { useGeneralStore } from "@/store/general";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
 
 export default function ProfilePage({ params }: ProfilePageTypes) {
-  const currentProfile = {
-    id: "1",
-    user_id: "1",
-    name: "test",
-    image: "https://placehold.co/200",
-    bio: "This is a test bio",
-  };
+  const userContext = useUser();
 
-  const post = {
-    id: "1",
-    text: "This is a test post",
-    video_url: "/mockVideo.mp4",
-    user_id: "1",
-    created_at: "2021-08-01T00:00:00.000Z",
-  };
+  const { postsByUser, setPostsByUser } = usePostStore();
+  const { currentProfile, setCurrentProfile } = useProfileStore();
+  let { isEditProfileOpen, setIsEditProfileOpen } = useGeneralStore();
+
+  useEffect(() => {
+    setCurrentProfile(params?.id);
+    setPostsByUser(params?.id);
+  }, [params?.id, setCurrentProfile, setPostsByUser]);
+
+  const bucketUrl = useCreateBucketUrl(currentProfile?.image!);
 
   return (
     <div className="pt-[90px] ml-[90px] 2xl:pl-[185px] lg:pl-[160px] lg:pr-0 w-[calc(100%-90px)] pr-3 max-w-[1800px] 2xl:mx-auto">
       <div className="flex w-[calc(100vw-230px)]">
-        {true ? (
+        {currentProfile ? (
           <Image
             className="min-w-[120px] w-auto h-auto rounded-full"
-            src={currentProfile?.image}
+            src={bucketUrl}
             alt="profile image"
             width={120}
             height={120}
@@ -52,10 +55,11 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
             <div className="h-[60px]" />
           )}
 
-          {true ? (
+          {userContext.user?.id === params?.id ? (
             <button
-              //TODO: Add edit profile functionality
-              onClick={() => console.log("Edit profile button clicked")}
+              onClick={() =>
+                setIsEditProfileOpen((isEditProfileOpen = !isEditProfileOpen))
+              }
               className="flex item-center rounded-md py-1.5 px-3.5 mt-3 text-[15px] font-semibold border hover:bg-gray-100"
             >
               <FaRegEdit
@@ -70,7 +74,6 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
             </button>
           )}
         </div>
-        E
       </div>
 
       <div className="flex items-center pt-4">
@@ -104,7 +107,12 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
 
       <div className="mt-4 grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3">
         <ClientOnly>
-          <PostUser post={post} />
+          {postsByUser?.map((post) => (
+            <PostUser
+              key={post.id}
+              post={post}
+            />
+          ))}
         </ClientOnly>
       </div>
 
