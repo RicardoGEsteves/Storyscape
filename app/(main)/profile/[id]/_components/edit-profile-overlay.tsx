@@ -1,17 +1,29 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Cropper } from "react-advanced-cropper";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiImageEditLine } from "react-icons/ri";
 import { BiLoaderCircle } from "react-icons/bi";
 
-import { CropperDimensions, ShowErrorObject } from "@/types/types";
-import TextInput from "@/components/text-input";
-
 import "react-advanced-cropper/dist/style.css";
 
+import { CropperDimensions, ShowErrorObject } from "@/types/types";
+import TextInput from "@/components/text-input";
+import { useUser } from "@/context/user";
+import { useProfileStore } from "@/store/profile";
+import { useGeneralStore } from "@/store/general";
+import useUpdateProfile from "@/hooks/use-update-profile";
+import useChangeUserImage from "@/hooks/use-change-user-image";
+import useUpdateProfileImage from "@/hooks/use-update-profile-image";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
+
 export default function EditProfileOverlay() {
+  const { currentProfile, setCurrentProfile } = useProfileStore();
+  const { setIsEditProfileOpen } = useGeneralStore();
+
+  const userContext = useUser();
+
   const router = useRouter();
 
   const [file, setFile] = useState<File | null>(null);
@@ -23,12 +35,11 @@ export default function EditProfileOverlay() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState<ShowErrorObject | null>(null);
 
-  const showError = (type: string) => {
-    if (error && Object.entries(error).length > 0 && error?.type == type) {
-      return error.message;
-    }
-    return "";
-  };
+  useEffect(() => {
+    setUserName(currentProfile?.name || "");
+    setUserBio(currentProfile?.bio || "");
+    setUserImage(currentProfile?.image || "");
+  }, [currentProfile?.bio, currentProfile?.image, currentProfile?.name]);
 
   const onUploadedImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
@@ -42,9 +53,66 @@ export default function EditProfileOverlay() {
     }
   };
 
-  const cropAndUpdateImage = () => {
-    console.log("cropper", cropper);
+  const validate = () => {
+    setError(null);
+    let isError = false;
+
+    if (!userName) {
+      setError({ type: "userName", message: "A Username is required" });
+      isError = true;
+    }
+    return isError;
   };
+
+  const updateUserInfo = async () => {
+    if (validate()) return;
+    if (!userContext?.user) return;
+
+    try {
+      setIsUpdating(true);
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useUpdateProfile(currentProfile?.id || "", userName, userBio);
+      setCurrentProfile(userContext?.user?.id);
+      setIsEditProfileOpen(false);
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      setIsUpdating(false);
+    }
+  };
+
+  const cropAndUpdateImage = async () => {
+    if (validate()) return;
+    if (!userContext?.user) return;
+
+    try {
+      if (!file) return alert("You have no file");
+      if (!cropper) return alert("You have no file");
+      setIsUpdating(true);
+
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      const newImageId = await useChangeUserImage(file, cropper, userImage);
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      await useUpdateProfileImage(currentProfile?.id || "", newImageId);
+
+      await userContext.checkUser();
+      setCurrentProfile(userContext?.user?.id);
+      setIsEditProfileOpen(false);
+      setIsUpdating(false);
+    } catch (error) {
+      console.log(error);
+      setIsUpdating(false);
+    }
+  };
+
+  const showError = (type: string) => {
+    if (error && Object.entries(error).length > 0 && error?.type == type) {
+      return error.message;
+    }
+    return "";
+  };
+
+  const bucketUrl = useCreateBucketUrl(userImage);
 
   return (
     <div
@@ -61,7 +129,7 @@ export default function EditProfileOverlay() {
           <h1 className="text-[22px] font-medium">Edit profile</h1>
           <button
             disabled={isUpdating}
-            onClick={() => {}}
+            onClick={() => setIsEditProfileOpen(false)}
             className="hover:bg-gray-200 p-1 rounded-full"
           >
             <AiOutlineClose size="25" />
@@ -92,7 +160,7 @@ export default function EditProfileOverlay() {
                       className="rounded-full"
                       width={95}
                       height={95}
-                      src="/placeholder-user.jpg"
+                      src={bucketUrl}
                       alt="profile image"
                     />
 
@@ -193,7 +261,7 @@ export default function EditProfileOverlay() {
             >
               <button
                 disabled={isUpdating}
-                onClick={() => {}}
+                onClick={() => setIsEditProfileOpen(false)}
                 className="flex items-center border rounded-md px-3 py-[6px] hover:bg-gray-100"
               >
                 <span className="px-2 font-medium text-[15px]">Cancel</span>
@@ -201,7 +269,7 @@ export default function EditProfileOverlay() {
 
               <button
                 disabled={isUpdating}
-                onClick={() => {}}
+                onClick={updateUserInfo}
                 className="flex items-center bg-lime-500 text-white border rounded-md ml-3 px-3 py-[6px]"
               >
                 <span className="mx-4 font-medium text-[15px]">
@@ -229,7 +297,7 @@ export default function EditProfileOverlay() {
               </button>
 
               <button
-                onClick={() => cropAndUpdateImage()}
+                onClick={cropAndUpdateImage}
                 className="flex items-center bg-lime-500 text-white border rounded-md ml-3 px-3 py-[6px]"
               >
                 <span className="mx-4 font-medium text-[15px]">

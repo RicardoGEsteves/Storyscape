@@ -8,6 +8,7 @@ import { AiFillHeart } from "react-icons/ai";
 
 import { PostMainCompTypes } from "@/types/component";
 import PostMainLikes from "./post-main-likes";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
 
 export default function PostMain({ post }: PostMainCompTypes) {
   useEffect(() => {
@@ -30,6 +31,9 @@ export default function PostMain({ post }: PostMainCompTypes) {
     }
   }, [post.id]);
 
+  const imageBucketUrl = useCreateBucketUrl(post?.profile?.image);
+  const videoBucketUrl = useCreateBucketUrl(post?.video_url);
+
   return (
     <div
       id={`PostMain-${post.id}`}
@@ -40,7 +44,7 @@ export default function PostMain({ post }: PostMainCompTypes) {
           className="rounded-full max-h-[60px]"
           width={60}
           height={60}
-          src={post?.profile?.image}
+          src={imageBucketUrl}
           alt="post profile picture"
         />
       </div>
@@ -77,7 +81,7 @@ export default function PostMain({ post }: PostMainCompTypes) {
               controls
               muted
               className="rounded-xl object-cover mx-auto h-full"
-              src={post?.video_url}
+              src={videoBucketUrl}
             />
             <Image
               className="absolute right-1.5 bottom-16"

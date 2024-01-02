@@ -1,12 +1,22 @@
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import Link from "next/link";
 
 import MenuItem from "./menu-item";
 import ClientOnly from "@/components/client-only";
 import MenuItemFollow from "./menu-item-follow";
+import { useGeneralStore } from "@/store/general";
+import { useUser } from "@/context/user";
 
 export default function SideNav() {
+  const { setRandomUsers, randomUsers } = useGeneralStore();
+  const userContext = useUser();
+
   const pathname = usePathname();
+
+  useEffect(() => {
+    setRandomUsers();
+  }, [setRandomUsers]);
 
   return (
     <div
@@ -44,13 +54,12 @@ export default function SideNav() {
 
         <ClientOnly>
           <div className="cursor-pointer">
-            <MenuItemFollow
-              user={{
-                id: "1",
-                name: "user name",
-                image: "https://placehold.co/50",
-              }}
-            />
+            {randomUsers?.map((user) => (
+              <MenuItemFollow
+                key={user.id}
+                user={user}
+              />
+            ))}
           </div>
         </ClientOnly>
 
@@ -58,7 +67,7 @@ export default function SideNav() {
           See all
         </button>
 
-        {true ? (
+        {userContext?.user?.id ? (
           <>
             <div className="border-b lg:ml-2 mt-2" />
             <h3 className="lg:block hidden text-xs text-gray-600 font-semibold pt-4 pb-2 px-2">
@@ -68,13 +77,12 @@ export default function SideNav() {
             <div className="lg:hidden block pt-3" />
             <ClientOnly>
               <div className="cursor-pointer">
-                <MenuItemFollow
-                  user={{
-                    id: "1",
-                    name: "user name",
-                    image: "https://placehold.co/50",
-                  }}
-                />
+                {randomUsers?.map((user) => (
+                  <MenuItemFollow
+                    key={user.id}
+                    user={user}
+                  />
+                ))}
               </div>
             </ClientOnly>
 

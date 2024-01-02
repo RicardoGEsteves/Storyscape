@@ -5,6 +5,7 @@ import { SiSoundcharts } from "react-icons/si";
 import { BiErrorCircle } from "react-icons/bi";
 
 import { PostUserCompTypes } from "@/types/component";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
 
 export default function PostUser({ post }: PostUserCompTypes) {
   useEffect(() => {
@@ -31,6 +32,8 @@ export default function PostUser({ post }: PostUserCompTypes) {
     };
   }, [post?.id]);
 
+  const bucketUrl = useCreateBucketUrl(post.video_url);
+
   return (
     <>
       <div className="relative brightness-90 hover:brightness-[1.1] cursor-pointer">
@@ -49,7 +52,7 @@ export default function PostUser({ post }: PostUserCompTypes) {
               muted
               loop
               className="aspect-[3/4] object-cover rounded-md"
-              src={post.video_url}
+              src={bucketUrl}
             />
           </Link>
         )}
