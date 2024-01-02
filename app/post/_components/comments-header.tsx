@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import moment from "moment";
@@ -40,18 +40,19 @@ export default function CommentsHeader({
     setLikesByPost(params?.postId);
   }, [params?.postId, setCommentsByPost, setLikesByPost]);
 
+  const hasUserLikedPost = useCallback(() => {
+    if (likesByPost.length < 1 || !userContext?.user?.id) {
+      setUserLiked(false);
+      return;
+    }
+    /* eslint-disable-next-line react-hooks/rules-of-hooks */
+    const res = useIsLiked(userContext.user.id, params.postId, likesByPost);
+    setUserLiked(res ? true : false);
+  }, [likesByPost, params.postId, userContext.user?.id]);
+
   useEffect(() => {
-    const hasUserLikedPost = () => {
-      if (likesByPost.length < 1 || !userContext?.user?.id) {
-        setUserLiked(false);
-        return;
-      }
-      /* eslint-disable-next-line react-hooks/rules-of-hooks */
-      const res = useIsLiked(userContext.user.id, params.postId, likesByPost);
-      setUserLiked(res ? true : false);
-    };
     hasUserLikedPost();
-  }, [likesByPost, params.postId, userContext?.user?.id]);
+  }, [hasUserLikedPost]);
 
   const like = async () => {
     try {
