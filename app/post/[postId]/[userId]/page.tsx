@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,30 +11,49 @@ import { PostPageTypes } from "@/types/component";
 import CommentsHeader from "../../_components/comments-header";
 import Comments from "../../_components/comments";
 import ClientOnly from "@/components/client-only";
+import { useCommentStore } from "@/store/comment";
+import { useLikeStore } from "@/store/like";
+import { usePostStore } from "@/store/post";
+import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
 
 export default function PostPage({ params }: PostPageTypes) {
+  const { postById, setPostById, postsByUser, setPostsByUser } = usePostStore();
+  const { setCommentsByPost } = useCommentStore();
+  const { setLikesByPost } = useLikeStore();
+
   const router = useRouter();
 
-  const postById = {
-    id: "1",
-    user_id: "1",
-    video_url: "/mockVideo.mp4",
-    text: "text",
-    created_at: "2021-09-01T00:00:00.000Z",
-    profile: {
-      user_id: "1",
-      name: "user name",
-      image: "https://placehold.co/100",
-    },
-  };
+  useEffect(() => {
+    setPostById(params.postId);
+    setCommentsByPost(params.postId);
+    setLikesByPost(params.postId);
+    setPostsByUser(params.userId);
+  }, [
+    params.postId,
+    params.userId,
+    setCommentsByPost,
+    setLikesByPost,
+    setPostById,
+    setPostsByUser,
+  ]);
 
   const loopThroughPostsUp = () => {
-    console.log("loopThroughPostsUp");
+    postsByUser.forEach((post) => {
+      if (post.id > params.postId) {
+        router.push(`/post/${post.id}/${params.userId}`);
+      }
+    });
   };
 
   const loopThroughPostsDown = () => {
-    console.log("loopThroughPostsDown");
+    postsByUser.forEach((post) => {
+      if (post.id < params.postId) {
+        router.push(`/post/${post.id}/${params.userId}`);
+      }
+    });
   };
+
+  const bucketUrl = useCreateBucketUrl(postById?.video_url!);
 
   return (
     <div
@@ -76,7 +96,7 @@ export default function PostPage({ params }: PostPageTypes) {
         {postById?.video_url ? (
           <video
             className="fixed object-cover w-full my-auto z-[0] h-screen"
-            src="/mockVideo.mp4"
+            src={bucketUrl}
           />
         ) : null}
 
@@ -88,7 +108,7 @@ export default function PostPage({ params }: PostPageTypes) {
               loop
               muted
               className="h-screen mx-auto"
-              src="/mockVideo.mp4"
+              src={bucketUrl}
             />
           ) : null}
         </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -17,6 +19,7 @@ import useUpdateProfile from "@/hooks/use-update-profile";
 import useChangeUserImage from "@/hooks/use-change-user-image";
 import useUpdateProfileImage from "@/hooks/use-update-profile-image";
 import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
+import ClientOnly from "@/components/client-only";
 
 export default function EditProfileOverlay() {
   const { currentProfile, setCurrentProfile } = useProfileStore();
@@ -156,13 +159,15 @@ export default function EditProfileOverlay() {
                     htmlFor="image"
                     className="relative cursor-pointer"
                   >
-                    <Image
-                      className="rounded-full"
-                      width={95}
-                      height={95}
-                      src={bucketUrl}
-                      alt="profile image"
-                    />
+                    <ClientOnly>
+                      <Image
+                        className="rounded-full"
+                        width={95}
+                        height={95}
+                        src={bucketUrl}
+                        alt="profile image"
+                      />
+                    </ClientOnly>
 
                     <button className="absolute bottom-0 right-0 rounded-full bg-white shadow-xl border p-1 border-gray-300 inline-block w-[32px] h-[32px]">
                       <RiImageEditLine

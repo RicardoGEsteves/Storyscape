@@ -31,29 +31,34 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
   return (
     <div className="pt-[90px] ml-[90px] 2xl:pl-[185px] lg:pl-[160px] lg:pr-0 w-[calc(100%-90px)] pr-3 max-w-[1800px] 2xl:mx-auto">
       <div className="flex w-[calc(100vw-230px)]">
-        {currentProfile ? (
-          <Image
-            className="min-w-[120px] w-auto h-auto rounded-full"
-            src={bucketUrl}
-            alt="profile image"
-            width={120}
-            height={120}
-            priority
-          />
-        ) : (
-          <div className="min-w-[150px] h-[150px] bg-gray-200 rounded-full" />
-        )}
-        <div className="ml-5 w-full">
-          {(currentProfile as User)?.name ? (
-            <div>
-              <p className="text-[30px] font-bold truncate">
-                {currentProfile?.name}
-              </p>
-              <p className="text-[18px] truncate">{currentProfile?.name}</p>
-            </div>
+        <ClientOnly>
+          {currentProfile ? (
+            <Image
+              className="min-w-[120px] w-auto h-auto rounded-full"
+              src={bucketUrl}
+              alt="profile image"
+              width={120}
+              height={120}
+              priority
+            />
           ) : (
-            <div className="h-[60px]" />
+            <div className="min-w-[150px] h-[150px] bg-gray-200 rounded-full" />
           )}
+        </ClientOnly>
+
+        <div className="ml-5 w-full">
+          <ClientOnly>
+            {(currentProfile as User)?.name ? (
+              <div>
+                <p className="text-[30px] font-bold truncate">
+                  {currentProfile?.name}
+                </p>
+                <p className="text-[18px] truncate">{currentProfile?.name}</p>
+              </div>
+            ) : (
+              <div className="h-[60px]" />
+            )}
+          </ClientOnly>
 
           {userContext.user?.id === params?.id ? (
             <button
@@ -92,9 +97,11 @@ export default function ProfilePage({ params }: ProfilePageTypes) {
         </div>
       </div>
 
-      <p className="pt-4 mr-4 text-gray-500 font-light text-[15px] pl-1.5 max-w-[500px]">
-        {currentProfile?.bio}
-      </p>
+      <ClientOnly>
+        <p className="pt-4 mr-4 text-gray-500 font-light text-[15px] pl-1.5 max-w-[500px]">
+          {currentProfile?.bio}
+        </p>
+      </ClientOnly>
 
       <ul className="w-full flex items-center pt-4 border-b">
         <li className="w-60 text-center py-2 text-[17px] font-semibold border-b-2 border-b-black">
