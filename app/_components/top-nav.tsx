@@ -15,7 +15,6 @@ import { useGeneralStore } from "@/store/general";
 import { RandomUsers } from "@/types/types";
 import useSearchProfilesByName from "@/hooks/use-search-profiles-by-name";
 import useCreateBucketUrl from "@/hooks/use-create-bucket-url";
-import ClientOnly from "@/components/client-only";
 
 export default function TopNav() {
   const userContext = useUser();
@@ -83,36 +82,35 @@ export default function TopNav() {
             className="w-full pl-3 my-2 bg-transparent placeholder-[#838383] text-[15px] focus:outline-none"
             placeholder="Search accounts"
           />
-          <ClientOnly>
-            {searchProfiles.length > 0 ? (
-              <div className="absolute bg-white max-w-[910px] h-auto w-full z-20 left-0 top-12 border p-1 rounded-md">
-                {searchProfiles.map((profile) => (
-                  <div
-                    className="p-1"
-                    key={profile.id}
+
+          {searchProfiles.length > 0 ? (
+            <div className="absolute bg-white max-w-[910px] h-auto w-full z-20 left-0 top-12 border p-1 rounded-md">
+              {searchProfiles.map((profile) => (
+                <div
+                  className="p-1"
+                  key={profile.id}
+                >
+                  <Link
+                    href={`/profile/${profile?.id}`}
+                    className="flex items-center justify-between w-full cursor-pointer hover:bg-lime-500 p-1 px-2 hover:text-neutral-950 rounded-md"
+                    onClick={() => setSearchProfiles([])}
                   >
-                    <Link
-                      href={`/profile/${profile?.id}`}
-                      className="flex items-center justify-between w-full cursor-pointer hover:bg-lime-500 p-1 px-2 hover:text-neutral-950 rounded-md"
-                      onClick={() => setSearchProfiles([])}
-                    >
-                      <div className="flex items-center">
-                        <Image
-                          className="rounded-md"
-                          width={40}
-                          height={40}
-                          /* eslint-disable-next-line react-hooks/rules-of-hooks */
-                          src={useCreateBucketUrl(profile?.image)}
-                          alt="Profile picture"
-                        />
-                        <div className="truncate ml-2">{profile?.name}</div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </ClientOnly>
+                    <div className="flex items-center">
+                      <Image
+                        className="rounded-md"
+                        width={40}
+                        height={40}
+                        /* eslint-disable-next-line react-hooks/rules-of-hooks */
+                        src={useCreateBucketUrl(profile?.image)}
+                        alt="Profile picture"
+                      />
+                      <div className="truncate ml-2">{profile?.name}</div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : null}
 
           <div className="px-3 py-1 flex items-center border-l border-l-gray-300">
             <BiSearch
