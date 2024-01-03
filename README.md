@@ -63,30 +63,43 @@ Find below a list of sample images showcasing Storyscape's interface and feature
 #### Desktop
 
 > Log in
+>
 > ![Demo log in](/public/demo-images/loginModal.png)
 > Register
+>
 > ![Demo register](/public/demo-images/registerModal.png)
 > Home page
+>
 > ![Demo home logged in](/public/demo-images/homePageLoggedIn.png)
 > Home page logged out
+>
 > ![Demo home logged out](/public/demo-images/homePageLoggedOut.png)
 > Home page zoomed out
+>
 > ![Demo home zoomed out](/public/demo-images/homePageZoomOut.png)
 > Profile page
+>
 > ![Demo profile page](/public/demo-images/profilePage.png)
 > Upload page
+>
 > ![Demo upload page](/public/demo-images/uploadPage.png)
 > Single post
+>
 > ![Demo single post](/public/demo-images/post.png)
 > Upload video
+>
 > ![Demo upload video](/public/demo-images/uploadVideo.png)
 > Crop image
+>
 > ![Demo crop image](/public/demo-images/croppeImage.png)
 > Edit profile
+>
 > ![Demo edit profile](/public/demo-images/editProfile.png)
 > Personal feed
+>
 > ![Demo personal feed](/public/demo-images/feed.png)
 > Search results
+>
 > ![Demo search results](/public/demo-images/searchProfiles.png)
 > Dropdown menu
 >
@@ -95,14 +108,19 @@ Find below a list of sample images showcasing Storyscape's interface and feature
 #### Mobile
 
 > Home page
+>
 > ![Demo home logged in](/public/demo-images/homePageMobile.png)
 > Profile page
+>
 > ![Demo profile page](/public/demo-images/profilePageMobile.png)
 > Upload page
+>
 > ![Demo upload page](/public/demo-images/uploadPageMobile.png)
 > Single post
+>
 > ![Demo single post](/public/demo-images/postMobile1.png) ![Demo single post](/public/demo-images/postMobile2.png)
 > Personal feed
+>
 > ![Demo personal feed](/public/demo-images/feedMobile.png)
 
 ## Installation
