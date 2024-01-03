@@ -89,6 +89,7 @@ Find below a list of sample images showcasing Storyscape's interface and feature
 > Search results
 > ![Demo search results](/public/demo-images/searchProfiles.png)
 > Dropdown menu
+>
 > ![Demo dropdown menu](/public/demo-images/dropdownMenu.png)
 
 #### Mobile
