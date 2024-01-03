@@ -10,6 +10,14 @@ Storyscape is an innovative social media platform designed to facilitate seamles
 - [Demo](#demo)
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
+- [AppWrite Schema](#appwrite-schema)
+  - [Database Name: Storyscape](#database-name-storyscape)
+  - [Profile Collection](#profile-collection)
+  - [Post Collection](#post-collection)
+  - [Like Collection](#like-collection)
+  - [Comment Collection](#comment-collection)
+  - [Storage Name: Storyscape](#storage-name-storyscape)
+  - [Bucket](#bucket)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -52,7 +60,49 @@ Storyscape offers a suite of innovative features and functionalities that cater 
 
 Find below a list of sample images showcasing Storyscape's interface and features:
 
-- [Image 1](link-to-image1)
+#### Desktop
+
+> Log in
+> ![Demo log in](/public/demo-images/loginModal.png)
+> Register
+> ![Demo register](/public/demo-images/registerModal.png)
+> Home page
+> ![Demo home logged in](/public/demo-images/homePageLoggedIn.png)
+> Home page logged out
+> ![Demo home logged out](/public/demo-images/homePageLoggedOut.png)
+> Home page zoomed out
+> ![Demo home zoomed out](/public/demo-images/homePageZoomOut.png)
+> Profile page
+> ![Demo profile page](/public/demo-images/profilePage.png)
+> Upload page
+> ![Demo upload page](/public/demo-images/uploadPage.png)
+> Single post
+> ![Demo single post](/public/demo-images/post.png)
+> Upload video
+> ![Demo upload video](/public/demo-images/uploadVideo.png)
+> Crop image
+> ![Demo crop image](/public/demo-images/croppeImage.png)
+> Edit profile
+> ![Demo edit profile](/public/demo-images/editProfile.png)
+> Personal feed
+> ![Demo personal feed](/public/demo-images/feed.png)
+> Search results
+> ![Demo search results](/public/demo-images/searchProfiles.png)
+> Dropdown menu
+> ![Demo dropdown menu](/public/demo-images/dropdownMenu.png)
+
+#### Mobile
+
+> Home page
+> ![Demo home logged in](/public/demo-images/homePageMobile.png)
+> Profile page
+> ![Demo profile page](/public/demo-images/profilePageMobile.png)
+> Upload page
+> ![Demo upload page](/public/demo-images/uploadPageMobile.png)
+> Single post
+> ![Demo single post](/public/demo-images/postMobile1.png) ![Demo single post](/public/demo-images/postMobile2.png)
+> Personal feed
+> ![Demo personal feed](/public/demo-images/feedMobile.png)
 
 ## Installation
 
@@ -109,6 +159,105 @@ NEXT_PUBLIC_BUCKET_NAME="Storyscape"
 NEXT_PUBLIC_BUCKET_ID=''
 NEXT_PUBLIC_PLACEHOLDER_DEFAULT_IMAGE_ID=''
 ```
+
+## AppWrite Schema
+
+### Database Name: Storyscape
+
+### Profile Collection:
+
+| Key           | Type   |
+| ------------- | ------ |
+| `Document ID` | String |
+| `image`       | String |
+| `bio`         | String |
+| `user_id`     | String |
+| `name`        | String |
+
+Profile Indexes:
+| KEY | TYPE | ATTRIBUTE | ASC/DESC |
+| ------------- | ------------- | ------------- | ------------- |
+| user_id | key | user_id | asc |
+| name | fulltext | name | asc |
+
+Profile Settings (Update Permissions):
+| Add Role | PERMISSIONS |
+| ------------- | ------------- |
+| All guests | Read |
+| All users | Create, Read, Update, Delete |
+
+### Post Collection:
+
+| Key           | Type   |
+| ------------- | ------ |
+| `Document ID` | String |
+| `user_id`     | String |
+| `video_url`   | String |
+| `text`        | String |
+| `created_at`  | String |
+
+Post Indexes:
+| KEY | TYPE | ATTRIBUTE | ASC/DESC |
+| ------------- | ------------- | ------------- | ------------- |
+| user_id | key | user_id | asc |
+
+Profile Settings (Update Permissions):
+| Add Role | PERMISSIONS |
+| ------------- | ------------- |
+| All guests | Read |
+| All users | Create, Read, Update, Delete |
+
+### Like Collection:
+
+| Key           | Type   |
+| ------------- | ------ |
+| `Document ID` | String |
+| `user_id`     | String |
+| `post_id`     | String |
+
+Like Indexes:
+| KEY | TYPE | ATTRIBUTE | ASC/DESC |
+| ------------- | ------------- | ------------- | ------------- |
+| user_id | key | user_id | asc |
+| id | unique | id | asc |
+| post_id | key | post_id | asc |
+
+Like Settings (Update Permissions):
+| Add Role | PERMISSIONS |
+| ------------- | ------------- |
+| All guests | Read |
+| All users | Create, Read, Update, Delete |
+
+### Comment Collection:
+
+| Key           | Type   |
+| ------------- | ------ |
+| `Document ID` | String |
+| `user_id`     | String |
+| `post_id`     | String |
+| `text`        | String |
+| `created_at`  | String |
+
+Comment Indexes:
+| KEY | TYPE | ATTRIBUTE | ASC/DESC |
+| ------------- | ------------- | ------------- | ------------- |
+| post_id | key | post_id | asc |
+
+Comment Settings (Update Permissions):
+| Add Role | PERMISSIONS |
+| ------------- | ------------- |
+| All guests | Read |
+| All users | Create, Read, Update, Delete |
+
+### Storage Name: Storyscape
+
+### Bucket:
+
+bucket Settings (Update Permissions):
+| Add Role | PERMISSIONS |
+| ------------- | ------------- |
+| All guests | Read |
+| All users | Create, Read, Update, Delete |
 
 ## Contributing
 
