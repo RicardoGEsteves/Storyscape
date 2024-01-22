@@ -18,7 +18,7 @@
     "react-advanced-cropper": "^0.19.4",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
-    "zustand": "^4.4.7"
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/debounce": "^1.2.4",
