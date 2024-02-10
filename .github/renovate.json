@@ -6,7 +6,6 @@
     ":enableVulnerabilityAlertsWithLabel('security')",
     "group:recommended",
     "helpers:pinGitHubActionDigests",
-    ":pinAllExceptPeerDependencies",
     ":semanticPrefixFixDepsChoreOthers"
   ],
   "digest": {
