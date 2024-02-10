@@ -7,8 +7,6 @@
     "group:recommended",
     "helpers:pinGitHubActionDigests",
     ":pinAllExceptPeerDependencies",
-    "group:monorepos",
-    "workarounds:all",
     ":semanticPrefixFixDepsChoreOthers"
   ],
   "digest": {
