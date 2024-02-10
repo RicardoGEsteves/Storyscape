@@ -10,12 +10,10 @@
   "digest": {
     "automerge": true
   },
-  "platform": "github",
   "prHeader": "RicardoGEsteves {{{groupSlug}}} update, dependency {{depName}} to v{{newVersion}}",
   "assignees": ["RicardoGEsteves"],
   "labels": ["dependencies", "major", "minor", "patch"],
   "schedule": ["every weekend"],
-  "prCreation": "status-success",
   "packageRules": [
     {
       "description": "Automatically merge minor and patch-level updates",
