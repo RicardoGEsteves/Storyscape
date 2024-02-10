@@ -5,7 +5,6 @@
     ":rebaseStalePrs",
     ":enableVulnerabilityAlertsWithLabel('security')",
     "group:recommended",
-    "helpers:pinGitHubActionDigests",
     ":semanticPrefixFixDepsChoreOthers"
   ],
   "digest": {
