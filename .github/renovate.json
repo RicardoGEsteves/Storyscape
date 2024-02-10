@@ -29,13 +29,8 @@
         "Type",
         "Update",
         "Change",
-        "Pending",
+        "Pending"
       ]
-    },
-    {
-      "description": "Group dependencies from package.json files",
-      "matchFileNames": ["**/package.json"],
-      "groupName": "All package.json changes"
     },
     {
       "description": "Automatically merge minor and patch-level updates",
