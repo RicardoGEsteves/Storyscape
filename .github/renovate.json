@@ -21,16 +21,6 @@
     "minimumReleaseAge": "3 days"
   },
   "prCreation": "status-success",
-  "packageRules": [
-    {
-      "prBodyColumns": [
-        "Package",
-        "Type",
-        "Update",
-        "Change",
-        "Pending"
-      ]
-    },
     {
       "description": "Automatically merge minor and patch-level updates",
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
