@@ -21,17 +21,17 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@types/debounce": "^1.2.4",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.17",
-    "canvas": "^2.11.2",
-    "eslint": "^8",
+    "@types/debounce": "1.2.4",
+    "@types/node": "20.11.16",
+    "@types/react": "18.2.55",
+    "@types/react-dom": "18.2.19",
+    "autoprefixer": "10.4.17",
+    "canvas": "2.11.2",
+    "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
-    "postcss": "^8",
-    "raw-loader": "^4.0.2",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "postcss": "8.4.35",
+    "raw-loader": "4.0.2",
+    "tailwindcss": "3.4.1",
+    "typescript": "5.3.3"
   }
 }
