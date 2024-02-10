@@ -23,7 +23,6 @@
   "prCreation": "status-success",
   "packageRules": [
     {
-      "matchSourceUrlPrefixes": ["https://github.com/"],
       "prBodyColumns": [
         "Package",
         "Type",
