@@ -15,9 +15,6 @@
   "assignees": ["RicardoGEsteves"],
   "labels": ["dependencies", "major", "minor", "patch"],
   "schedule": ["every weekend"],
-  "npm": {
-    "minimumReleaseAge": "3 days"
-  },
   "prCreation": "status-success",
   "packageRules": [
     {
