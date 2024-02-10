@@ -21,6 +21,7 @@
     "minimumReleaseAge": "3 days"
   },
   "prCreation": "status-success",
+  "packageRules": [
     {
       "description": "Automatically merge minor and patch-level updates",
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
