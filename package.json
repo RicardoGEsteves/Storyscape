@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/debounce": "1.2.4",
-    "@types/node": "20.11.20",
+    "@types/node": "20.11.24",
     "@types/react": "18.2.58",
     "@types/react-dom": "18.2.19",
     "autoprefixer": "10.4.17",
