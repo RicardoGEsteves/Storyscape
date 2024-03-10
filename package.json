@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "appwrite": "^13.0.1",
+    "appwrite": "^14.0.0",
     "debounce": "^2.0.0",
     "image-js": "^0.35.5",
     "moment": "^2.30.1",
