@@ -1,5 +1,7 @@
 # Storyscape - Redefining Social Media Engagement
 
+> **(UPDATE)** - with the latest dependencies updates, you will have to do some small config changes.
+
 Storyscape is an innovative social media platform designed to facilitate seamless content sharing, connectivity, and engagement on a global scale. This repository serves as the central hub for technical documentation and resources essential for understanding and integrating with Storyscape's robust functionalities.
 
 ## Table of Contents
