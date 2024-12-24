@@ -24,7 +24,7 @@
     "@types/debounce": "1.2.4",
     "@types/node": "22.10.2",
     "@types/react": "19.0.2",
-    "@types/react-dom": "18.3.5",
+    "@types/react-dom": "19.0.2",
     "autoprefixer": "10.4.20",
     "canvas": "2.11.2",
     "eslint": "8.57.1",
