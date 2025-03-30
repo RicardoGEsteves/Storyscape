@@ -13,25 +13,25 @@
     "debounce": "^2.2.0",
     "image-js": "^0.36.0",
     "moment": "^2.30.1",
-    "next": "15.2.0",
+    "next": "15.2.4",
     "react": "^19",
-    "react-advanced-cropper": "^0.20.0",
+    "react-advanced-cropper": "^0.20.1",
     "react-dom": "^19",
-    "react-icons": "^5.2.1",
+    "react-icons": "^5.5.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@types/debounce": "1.2.4",
     "@types/node": "22.13.5",
-    "@types/react": "19.0.10",
+    "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
-    "autoprefixer": "10.4.20",
+    "autoprefixer": "10.4.21",
     "canvas": "3.1.0",
     "eslint": "8.57.1",
     "eslint-config-next": "15.2.0",
     "postcss": "8.5.3",
     "raw-loader": "4.0.2",
     "tailwindcss": "3.4.17",
-    "typescript": "5.7.3"
+    "typescript": "5.8.2"
   }
 }
